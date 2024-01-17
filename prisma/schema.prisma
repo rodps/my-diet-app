@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String
+  password String
+  foods    Food[]
+  meals    Meal[]
+
+  @@map("users")
+}
+
+model Food {
+  id           Int    @id @default(autoincrement())
+  name         String
+  calories     Float
+  carbohydrate Float
+  proteins     Float
+  fats         Float
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  compositions Composition[]
+
+  @@map("foods")
+}
+
+model Meal {
+  id   Int    @id @default(autoincrement())
+  name String
+  schedule String
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  composition Composition[]
+
+  @@map("meals")
+}
+
+model Composition {
+  id Int @id @default(autoincrement())
+
+  meal   Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  mealId Int
+  food   Food @relation(fields: [foodId], references: [id], onDelete: Cascade)
+  foodId Int
+
+  @@map("compositions")
+}
