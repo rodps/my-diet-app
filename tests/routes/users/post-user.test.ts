@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, it } from 'bun:test'
 import { app } from '../../../src'
 import prisma from '../../../src/db'
-
-const url = (route: string): string => `${process.env.API_URL}${route}`
+import { url } from '../../utils'
 
 describe('POST /users', () => {
   beforeEach(async () => {
@@ -49,7 +48,6 @@ describe('POST /users', () => {
       body: JSON.stringify(user)
     }))
     const data = await response.json()
-    console.log(data)
 
     // assert
     expect(response.status).toBe(409)
