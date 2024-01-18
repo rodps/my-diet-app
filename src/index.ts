@@ -1,23 +1,32 @@
 import { Elysia } from 'elysia'
+import {
+  ConflictError,
+  UnauthorizedError
+} from './errors'
 import { usersRouter } from './routes/users'
-import { ConflictError } from './errors/conflict.error'
 import { foodsRouter } from './routes/foods'
+import { loginRouter } from './routes/login'
 
 const app = new Elysia({ prefix: '/api' })
 
 app
   .error({
-    ConflictError
+    ConflictError,
+    UnauthorizedError
   })
   .onError(({ code, error, set }) => {
     switch (code) {
       case 'ConflictError':
         set.status = 409
         return { message: error.message }
+      case 'UnauthorizedError':
+        set.status = 401
+        return { message: error.message }
     }
   })
 
 app.use(usersRouter)
+app.use(loginRouter)
 app.use(foodsRouter)
 
 app.listen(3000, () => {
