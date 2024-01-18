@@ -12,9 +12,9 @@ usersRouter.post(
   },
   {
     body: t.Object({
-      name: t.String({ minLength: 1 }),
-      email: t.String({ format: 'email' }),
-      password: t.String({ minLength: 3 })
+      name: t.String(),
+      email: t.String(),
+      password: t.String()
     })
   }
 )

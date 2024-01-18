@@ -1,11 +1,9 @@
-import bcrypt from 'bcrypt'
-
 const hashPassword = async (password: string): Promise<string> => {
-  return await bcrypt.hash(password, 10)
+  return await Bun.password.hash(password, 'bcrypt')
 }
 
 const comparePasswords = async (password: string, hash: string): Promise<boolean> => {
-  return await bcrypt.compare(password, hash)
+  return await Bun.password.verify(password, hash, 'bcrypt')
 }
 
 export { hashPassword, comparePasswords }
