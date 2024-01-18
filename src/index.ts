@@ -1,8 +1,9 @@
 import { Elysia } from 'elysia'
 import { usersRouter } from './routes/users'
 import { ConflictError } from './errors/conflict.error'
+import { foodsRouter } from './routes/foods'
 
-const app = new Elysia()
+const app = new Elysia({ prefix: '/api' })
 
 app
   .error({
@@ -17,6 +18,7 @@ app
   })
 
 app.use(usersRouter)
+app.use(foodsRouter)
 
 app.listen(3000, () => {
   console.log('🦊 Elysia is running at 3000')
