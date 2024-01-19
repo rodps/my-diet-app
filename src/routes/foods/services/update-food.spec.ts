@@ -28,8 +28,7 @@ describe('updateFood', () => {
       calories: faker.number.float(),
       carbohydrate: faker.number.float(),
       proteins: faker.number.float(),
-      fats: faker.number.float(),
-      userId
+      fats: faker.number.float()
     }
 
     // act
@@ -48,8 +47,7 @@ describe('updateFood', () => {
       calories: faker.number.float(),
       carbohydrate: faker.number.float(),
       proteins: faker.number.float(),
-      fats: faker.number.float(),
-      userId
+      fats: faker.number.float()
     }
     spyOn(repository, 'findOne').mockResolvedValueOnce(null)
 

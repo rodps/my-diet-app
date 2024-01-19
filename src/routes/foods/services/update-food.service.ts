@@ -8,7 +8,6 @@ interface IUpdateFoodData {
   carbohydrate: number
   proteins: number
   fats: number
-  userId: number
 }
 
 const updateFoodService = async (userId: number, data: IUpdateFoodData): Promise<void> => {
