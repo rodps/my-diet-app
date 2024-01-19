@@ -23,6 +23,7 @@ app
         set.status = 401
         return { message: error.message }
     }
+    console.log(error)
   })
 
 app.use(usersRouter)
