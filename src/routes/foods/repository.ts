@@ -23,4 +23,8 @@ const update = async (userId: number, data: IUpdateFoodData): Promise<void> => {
   await prisma.food.update({ where: { id: data.id, userId }, data })
 }
 
-export { saveFood, findAll, update, findOne }
+const deleteFood = async (userId: number, id: number): Promise<void> => {
+  await prisma.food.delete({ where: { id, userId } })
+}
+
+export { saveFood, findAll, update, findOne, deleteFood }
