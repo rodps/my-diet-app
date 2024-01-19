@@ -3,6 +3,7 @@ import { createFoodService } from './services/create-food.service'
 import { bearerToken } from '../../middleware/bearer-token'
 import { listFoodsService } from './services/list-foods.service'
 import { updateFoodService } from './services/update-food.service'
+import { deleteFoodService } from './services/delete-food.service'
 
 const foodsRouter = new Elysia({ prefix: '/foods' })
 
@@ -38,6 +39,15 @@ foodsRouter
       carbohydrate: t.Number({ min: 0 }),
       proteins: t.Number({ min: 0 }),
       fats: t.Number({ min: 0 })
+    })
+  })
+  .delete('/:id', async ({ user, params, set }) => {
+    await deleteFoodService(user.id, params.id)
+    set.status = 200
+    return { message: 'Food deleted' }
+  }, {
+    params: t.Object({
+      id: t.Numeric()
     })
   })
 
