@@ -13,4 +13,13 @@ const findAll = async (userId: number): Promise<Food[]> => {
   return foods
 }
 
-export { saveFood, findAll }
+const findOne = async (userId: number, id: number): Promise<Food | null> => {
+  const food = await prisma.food.findFirst({ where: { id, userId } })
+  return food
+}
+
+const update = async (userId: number, data: Food): Promise<void> => {
+  await prisma.food.update({ where: { id: data.id, userId }, data })
+}
+
+export { saveFood, findAll, update, findOne }
