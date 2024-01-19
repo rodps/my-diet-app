@@ -1,6 +1,7 @@
 import Elysia, { t } from 'elysia'
 import { createFoodService } from './services/create-food.service'
 import { bearerToken } from '../../middleware/bearer-token'
+import { listFoodsService } from './services/list-foods.service'
 
 const foodsRouter = new Elysia({ prefix: '/foods' })
 
@@ -18,6 +19,11 @@ foodsRouter
       proteins: t.Number({ min: 0 }),
       fats: t.Number({ min: 0 })
     })
+  })
+  .get('/', async ({ user, set }) => {
+    const foods = await listFoodsService(user.id)
+    set.status = 200
+    return foods
   })
 
 export { foodsRouter }
