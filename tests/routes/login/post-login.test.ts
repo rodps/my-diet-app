@@ -43,7 +43,7 @@ describe('POST /login', () => {
       new Request(url('/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: 'test@email.com', password: 'wrong_password' })
+        body: JSON.stringify({ email: user.email, password: 'wrong_password' })
       })
     )
 
