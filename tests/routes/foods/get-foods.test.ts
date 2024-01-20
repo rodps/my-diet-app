@@ -40,7 +40,6 @@ describe('GET /foods', () => {
     // assert
     expect(response.status).toBe(200)
     const data = await response.json()
-    console.log(data)
     expect(data.foods.length).toBe(3)
     for (let i = 0; i < 3; i++) {
       expect(data.foods[i].id).toBeTruthy()
