@@ -27,19 +27,19 @@ foodsRouter
     set.status = 200
     return { foods }
   })
-  .put('/', async ({ user, body, set }) => {
-    await updateFoodService(user.id, body)
+  .put('/:id', async ({ user, body, params: { id }, set }) => {
+    const food = await updateFoodService(user.id, { ...body, id })
     set.status = 200
-    return { message: 'Food updated' }
+    return { food }
   }, {
     body: t.Object({
-      id: t.Number(),
       name: t.String({ minLength: 1 }),
       calories: t.Number({ min: 0 }),
       carbohydrate: t.Number({ min: 0 }),
       proteins: t.Number({ min: 0 }),
       fats: t.Number({ min: 0 })
-    })
+    }),
+    params: t.Object({ id: t.Numeric() })
   })
   .delete('/:id', async ({ user, params, set }) => {
     await deleteFoodService(user.id, params.id)
