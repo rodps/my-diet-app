@@ -10,9 +10,9 @@ const foodsRouter = new Elysia({ prefix: '/foods' })
 foodsRouter
   .use(bearerToken)
   .post('/', async ({ user, body, set }) => {
-    await createFoodService(user.id, body)
+    const food = await createFoodService(user.id, body)
     set.status = 201
-    return { message: 'Food created' }
+    return { food }
   }, {
     body: t.Object({
       name: t.String({ minLength: 1 }),
@@ -25,7 +25,7 @@ foodsRouter
   .get('/', async ({ user, set }) => {
     const foods = await listFoodsService(user.id)
     set.status = 200
-    return foods
+    return { foods }
   })
   .put('/', async ({ user, body, set }) => {
     await updateFoodService(user.id, body)

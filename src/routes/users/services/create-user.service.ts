@@ -1,3 +1,4 @@
+import { type User } from '@prisma/client'
 import { ConflictError } from '../../../errors/conflict.error'
 import { hashPassword } from '../../../libs/hash-password'
 import { findByEmail, saveUser } from '../repository'
@@ -8,7 +9,7 @@ interface ICreateUserData {
   password: string
 }
 
-const createUserService = async (data: ICreateUserData): Promise<void> => {
+const createUserService = async (data: ICreateUserData): Promise<User> => {
   const userExists = await findByEmail(data.email)
 
   if (userExists != null) {
@@ -17,7 +18,7 @@ const createUserService = async (data: ICreateUserData): Promise<void> => {
 
   const hashedPassword = await hashPassword(data.password)
 
-  await saveUser({ ...data, password: hashedPassword })
+  return await saveUser({ ...data, password: hashedPassword })
 }
 
 export { createUserService, type ICreateUserData }

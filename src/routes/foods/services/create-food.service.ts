@@ -1,3 +1,4 @@
+import { type Food } from '@prisma/client'
 import { saveFood } from '../repository'
 
 interface ICreateFoodData {
@@ -8,8 +9,8 @@ interface ICreateFoodData {
   fats: number
 }
 
-const createFoodService = async (userId: number, data: ICreateFoodData): Promise<void> => {
-  await saveFood(userId, data)
+const createFoodService = async (userId: number, data: ICreateFoodData): Promise<Food> => {
+  return await saveFood(userId, data)
 }
 
 export { createFoodService, type ICreateFoodData }

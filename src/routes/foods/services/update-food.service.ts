@@ -1,5 +1,6 @@
 import { NotFoundError } from 'elysia'
 import { findOne, update } from '../repository'
+import { type Food } from '@prisma/client'
 
 interface IUpdateFoodData {
   id: number
@@ -10,12 +11,12 @@ interface IUpdateFoodData {
   fats: number
 }
 
-const updateFoodService = async (userId: number, data: IUpdateFoodData): Promise<void> => {
+const updateFoodService = async (userId: number, data: IUpdateFoodData): Promise<Food> => {
   const doesExist = await findOne(userId, data.id)
   if (doesExist == null) {
     throw new NotFoundError('Food not found')
   }
-  await update(userId, data)
+  return await update(userId, data)
 }
 
 export { updateFoodService, type IUpdateFoodData }

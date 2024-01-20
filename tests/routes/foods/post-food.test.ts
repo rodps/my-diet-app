@@ -1,12 +1,13 @@
 import { afterAll, describe, expect, it } from 'bun:test'
 import { app } from '../../../src'
-import { createTestUser, deleteTestUser, url } from '../../utils'
+import { createTestUser, deleteTestData, getTestUserToken, url } from '../../utils'
 
-const token = await createTestUser()
+const user = await createTestUser()
+const token = await getTestUserToken()
 
 describe('POST /foods', () => {
   afterAll(async () => {
-    await deleteTestUser()
+    await deleteTestData()
   })
 
   it('should return 201 if food is created', async () => {
@@ -28,9 +29,16 @@ describe('POST /foods', () => {
       },
       body: JSON.stringify(body)
     }))
+    const { food } = await response.json()
 
     // assert
     expect(response.status).toBe(201)
+    expect(food.name).toBe(body.name)
+    expect(food.calories).toBe(body.calories)
+    expect(food.carbohydrate).toBe(body.carbohydrate)
+    expect(food.proteins).toBe(body.proteins)
+    expect(food.fats).toBe(body.fats)
+    expect(food.userId).toBe(user.id)
   })
 
   it('should return 400 if body is invalid', async () => {

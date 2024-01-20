@@ -1,23 +1,10 @@
-import { afterAll, beforeAll, describe, expect, it } from 'bun:test'
-import prisma from '../../../src/db'
-import { url } from '../../utils'
+import { describe, expect, it } from 'bun:test'
+import { createTestUser, url } from '../../utils'
 import { app } from '../../../src'
 
+const user = await createTestUser()
+
 describe('POST /login', () => {
-  beforeAll(async () => {
-    const hash = await Bun.password.hash('123456', { algorithm: 'bcrypt' })
-    const user = {
-      email: 'test@email.com',
-      name: 'testerson',
-      password: hash
-    }
-    await prisma.user.create({ data: user })
-  })
-
-  afterAll(async () => {
-    await prisma.user.deleteMany({})
-  })
-
   it('should return 200 if login is successful', async () => {
     // arrange
 
@@ -25,7 +12,7 @@ describe('POST /login', () => {
     const response = await app.handle(new Request(url('/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'test@email.com', password: '123456' })
+      body: JSON.stringify({ email: user.email, password: user.password })
     }))
     const data = await response.json()
 

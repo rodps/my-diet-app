@@ -30,12 +30,14 @@ describe('updateFood', () => {
       proteins: faker.number.float(),
       fats: faker.number.float()
     }
+    spyOn(repository, 'update').mockResolvedValueOnce({ ...data, userId })
 
     // act
-    await updateFoodService(userId, data)
+    const food = await updateFoodService(userId, data)
 
     // assert
     expect(repository.update).toHaveBeenCalledWith(userId, data)
+    expect(food).toEqual({ ...data, userId })
   })
 
   it('should throw NotFoundError if food not found', async () => {

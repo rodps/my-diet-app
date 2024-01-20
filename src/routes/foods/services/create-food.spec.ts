@@ -20,11 +20,13 @@ describe('createFood', () => {
       fats: faker.number.int()
     }
     const saveFoodSpy = spyOn(repository, 'saveFood')
+      .mockResolvedValueOnce({ ...data, id: faker.number.int(10), userId })
 
     // act
-    await createFoodService(userId, data)
+    const food = await createFoodService(userId, data)
 
     // assert
     expect(saveFoodSpy).toHaveBeenCalledWith(userId, data)
+    expect(food).toEqual({ ...data, id: expect.any(Number), userId })
   })
 })
